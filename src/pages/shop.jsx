@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 function Shop() {
+    const [show,setShow] = useState(false)
+
     const [list, setList] = useState([])
     useEffect(() => {
         fetch('https://dummyjson.com/products/categories')
@@ -9,13 +11,13 @@ function Shop() {
                 setList(json)
             });
     }, [])
-    
+
     const [url,setUrl] = useState("https://dummyjson.com/products")
         useEffect(() => {
             fetch(url)
                 .then(res => res.json())
                 .then(json=> {
-                    setData(json.products)
+                    return setData(json.products)
                 });
         },[url])
         
@@ -54,14 +56,16 @@ function Shop() {
                 </form>
 
                 <div>
-                    <button>
+                    <button onClick={()=>setShow(!show)} className="btnFilter">
                         Filter
                     </button>
-                    <div>
+                    <div style={{display:show?"block":"none"}}>
                         <ul className="filterlist">
                             {list.map((e, i) => {
                                 return (
-                                    <li onClick={(e)=>setUrl(e.url)} key={i}>{e.name}</li>
+                                    <li onClick={()=>{
+                                        setShow(!show)
+                                        setUrl(e.url)}} key={i}>{e.name}</li>
                                 )
                             })}
                         </ul>
