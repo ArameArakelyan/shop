@@ -39,25 +39,32 @@ function Shop() {
     }, [search])
 
     const [data, setData] = useState([])
-    // useEffect(() => {
-    //     fetch('https://dummyjson.com/products')
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             setData(json.products)
-    //         });
-    // }, [])
+    
+    const [sortData, setSortData] = useState(0)
+    
+    useEffect(()=>{
+        if (sortData===2) {
+            data.sort((a,b)=>a.price-b.price)
+        } else {data.sort((a,b)=>b.price-a.price)}
+    },[sortData])
+
     return (
-        <div>
+        <main>
+            <div>
             <h1>Shop</h1>
 
             <div style={{ display: "flex" }}>
                 <form onSubmit={onSubmit}>
-                    <input placeholder="Search..." type="text" value={value} onChange={(e) => setValue(e.target.value)} />
+                    <input className="inp" placeholder="Search..." type="text" value={value} onChange={(e) => setValue(e.target.value)} />
                 </form>
-
+                <div>
+                    <button className="sortbtn" onClick={()=>setSortData(2)}>Sort by price (decrease)</button>
+        
+                    <button className="sortbtn" onClick={()=>setSortData(3)}>Sort by price (increase)</button>
+                </div>
                 <div>
                     <button onClick={()=>setShow(!show)} className="btnFilter">
-                        Filter
+                        Categories
                     </button>
                     <div style={{display:show?"block":"none"}}>
                         <ul className="filterlist">
@@ -73,16 +80,19 @@ function Shop() {
                 </div>
             </div>
             <div className="shopdiv">
+
                 {data.map((e) => {
                     return (
                         <div key={e.id} className="card">
                             <img src={e.images[0]} alt="" />
                             <p>{e.title}</p>
+                            <h3>${e.price}</h3>
                         </div>
                     )
                 })}
             </div>
         </div>
+        </main>
     )
 }
 

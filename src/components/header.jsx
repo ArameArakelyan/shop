@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 function Header() {
     return (
         <header className="header">
+            <div className="logo">
+                <h2 className="logotext">FakeStore</h2>
+            </div>
             <nav>
                 <ul className="menu">
                     <li>
